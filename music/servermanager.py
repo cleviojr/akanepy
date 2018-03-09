@@ -1,4 +1,7 @@
-from config import CONFIG
+from config                 import CONFIG
+from random                 import shuffle
+from commands.utils.youtube import Youtube
+
 import asyncio
 
 class ServerManager():
@@ -14,47 +17,53 @@ class ServerManager():
         self.loop         = self.voice_client.loop
         self.playlist     = []
         self.volume       = CONFIG['DEFAULT_VOLUME']
-        self.is_empty     = True
         self.is_paused    = False
         self.player       = None
         self.is_skipping  = False
 
+    def is_playing(self):
+        if self.player:
+            return not self.player.is_done()
+
     def on_song_end(self):
         asyncio.run_coroutine_threadsafe(self.skip(), self.loop)
 
-    async def play(self, vid):      
-        if self.is_empty:
-            if self.player:
-                if not self.player.is_done():
-                    self.playlist.append(vid)
-                    self.is_empty = False
-                    return
+    async def add_to_playlist(self, video_id):
+        self.playlist.append(video_id)
 
-            self.is_empty = False
-            self.player = await self.voice_client.create_ytdl_player(vid, after=self.on_song_end)
+        await self.play()
+
+    async def load_playlist(self, playlist_id, start_index=None):
+        ytplaylist = Youtube().list_playlist_videos(playlist_id)
+
+        if start_index:
+            ytplaylist[:start_index - 1] = []
+
+        self.playlist.extend(ytplaylist)
+                    
+        await self.play()
             
-            self.player.volume = self.volume
-            self.player.start()
-
-        else:
-            self.playlist.append(vid)
-
+    async def play(self):      
+            if not self.is_playing():
+                self.player = await self.voice_client.create_ytdl_player(self.playlist.pop(0), after=self.on_song_end)
+                self.player.volume = self.volume
+                self.player.start()
     
-    async def skip(self, command=False):
-        if command:
+    async def skip(self, is_command=False):
+        if is_command:
             self.is_skipping = True
         
-        if self.player.is_done() and self.is_skipping:
-            self.is_skipping = False
-            return
+        if self.player:
+            self.player.stop()
+            if self.player.is_done() and self.is_skipping:
+                self.is_skipping = False
+                return
 
-        self.player.stop()
         if self.playlist:
-            self.player = await self.voice_client.create_ytdl_player(self.playlist.pop(), after=self.on_song_end)
-            self.player.volume = self.volume
-            self.player.start()
-            
-            if not self.playlist:
-                self.is_empty = True
-        else:
-            self.is_empty = True
+            await self.play()
+
+    def shuffle(self):
+        shuffle(self.playlist)
+
+    def clear(self):
+        self.playlist = []
