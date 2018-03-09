@@ -1,10 +1,14 @@
 from commands.utils.parser import parse
 
-from commands.ping   import PingCmd
+#general commands
+from commands.ping import PingCmd
 
-from commands.play   import PlayCmd
-from commands.skip   import SkipCmd
-from commands.vol    import VolCmd
+#music commands
+from commands.play    import PlayCmd
+from commands.skip    import SkipCmd
+from commands.vol     import VolCmd
+from commands.shuffle import ShuffleCmd
+from commands.clear   import ClearCmd
 
 GENERAL_COMMAND_LIST = {
     '!ping': PingCmd,
@@ -14,6 +18,8 @@ MUSIC_COMMAND_LIST = {
     '!play': PlayCmd,
     '!skip': SkipCmd,
     '!vol': VolCmd,
+    '!shuffle': ShuffleCmd,
+    '!clear': ClearCmd,
 }
 
 class Runner():
@@ -35,14 +41,14 @@ class Runner():
                 return True
 
     async def run(self):
-        if self.is_command():
+        command = None
+        if self.is_command(): 
             command = GENERAL_COMMAND_LIST[self.key](self.client)
-            await command.run(self.message, self.args)
-            print(f'{self.key} with success.')
-        elif self.is_music_command():
+        elif self.is_music_command(): 
             command = MUSIC_COMMAND_LIST[self.key](self.client, self.manager)
+
+        if command:
             await command.run(self.message, self.args)
             print(f'{self.key} with success.')
         else:
-            print('It was not a command.')
-              
+            print('It was not a command.')            
