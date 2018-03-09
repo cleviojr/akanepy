@@ -1,0 +1,3 @@
+variables.yaml
+*.__pycache__/
+.vscode/
