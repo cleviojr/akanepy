@@ -25,7 +25,7 @@ class PlayCmd():
 
             #checks current server in dict of server_id->servermanager
             if not f'{current_server.id}' in self.manager.server_managers.keys():
-                await self.manager.insert_server(self.client, message.channel)
+                self.manager.insert_server(self.client, message.channel)
 
             current_server_manager = self.manager.server_managers[f'{current_server.id}']
             #checks if it is a youtube link, playlist, common video, or a video search
