@@ -4,9 +4,6 @@ class Manager(object):
     def __init__(self):
         self.server_managers = {}
 
-    async def insert_server_and_play(self, client, textch, vid):
+    def insert_server(self, client, textch):
         server_id = textch.server.id
-        if not f'{server_id}' in self.server_managers.keys():
-            self.server_managers[f'{server_id}'] = ServerManager(client, textch)
-
-        await self.server_managers[f'{server_id}'].play(vid)
+        self.server_managers[f'{server_id}'] = ServerManager(client, textch)
