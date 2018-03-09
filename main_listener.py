@@ -1,20 +1,21 @@
 import discord
 from commands.utils.core import Runner
+import asyncio
 
-class MainListener():
+class MainListener():   
     def __init__(self, client, manager):
-        self.client  = client
-        self.manager = manager
+        self.client            = client
+        self.manager           = manager
+        self.connected_servers = 0
+        self.game              = ''
 
         @self.client.event
         async def on_ready():
-            connected_servers = 0
             for j in self.client.servers: 
-                connected_servers += 1
+                self.connected_servers += 1
             
-            message = f'Online for {connected_servers} servers.'
-            print(message)
-            await self.client.change_presence(game=discord.Game(name=message))
+            await self.update_game()
+            print(self.game)
 
         @self.client.event
         async def on_message(message):
@@ -24,8 +25,20 @@ class MainListener():
             if not_command:
                 return
 
-            print('New command detected.')
+            print('Command prefix detected.')
             command = Runner(self.client, message, self.manager)
             await command.run()
 
-        #@self.client.event on server join on server leave
+        @self.client.event
+        async def on_server_join(server):
+            self.connected_servers += 1
+            await self.update_game()
+
+        @self.client.event
+        async def on_server_remove(server):
+            self.connected_servers -= 1
+            await self.update_game()
+
+    async def update_game(self):
+        self.game = f'Online for {self.connected_servers} servers.'
+        await self.client.change_presence(game=discord.Game(name=self.game)) 
