@@ -6,5 +6,5 @@ class SkipCmd():
     async def run(self, message, args):
         server_id = message.server.id
 
-        await self.manager.server_managers[f'{server_id}'].skip(command=True)
+        await self.manager.server_managers[f'{server_id}'].skip(is_command=True)
         
