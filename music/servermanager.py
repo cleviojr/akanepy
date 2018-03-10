@@ -1,6 +1,7 @@
 from config                 import CONFIG
 from random                 import shuffle
 from commands.utils.youtube import Youtube
+from collections            import deque
 
 import asyncio
 
@@ -15,7 +16,7 @@ class ServerManager():
         self.id           = self.server.id
         self.voice_client = self.client.voice_client_in(self.server)
         self.loop         = self.voice_client.loop
-        self.playlist     = []
+        self.playlist     = deque()
         self.volume       = CONFIG['DEFAULT_VOLUME']
         self.is_paused    = False
         self.player       = None
@@ -45,7 +46,7 @@ class ServerManager():
             
     async def play(self):      
             if not self.is_playing():
-                self.player = await self.voice_client.create_ytdl_player(self.playlist.pop(0), after=self.on_song_end)
+                self.player = await self.voice_client.create_ytdl_player(self.playlist.popleft(), after=self.on_song_end)
                 self.player.volume = self.volume
                 self.player.start()
     
@@ -66,4 +67,4 @@ class ServerManager():
         shuffle(self.playlist)
 
     def clear(self):
-        self.playlist = []
+        self.playlist.clear()
