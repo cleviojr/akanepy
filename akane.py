@@ -25,6 +25,6 @@ class Akane():
             quit()
 
     async def run(self):
-        await self.client.start(CONFIG['DISCORD_TOKEN'])
+        await self.client.start(CONFIG['discord_token'])
 
 Akane()
