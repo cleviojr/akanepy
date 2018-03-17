@@ -1,13 +1,14 @@
 from utils.embeds import send_executed_embed
 
+
 class SetMusicCmd():
     def __init__(self, client, manager):
-        self.client  = client
+        self.client = client
         self.manager = manager
 
     async def run(self, message, args):
         server_id = message.server.id
-        channel   = message.channel
+        channel = message.channel
         try:
             if args:
                 if args[0] == 'mute':
