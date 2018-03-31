@@ -16,14 +16,14 @@ class SetMusicCmd():
 
                     await send_executed_embed(self.client, message,
                                               command='setmusic',
-                                              text='I won\'t send any'
+                                              text='I won\'t send any '
                                                    'music command reply.')
             else:
                 self.manager.server_managers[f'{server_id}'].textch = channel
 
                 await send_executed_embed(self.client, message,
                                           command='setmusic',
-                                          text='The channel I will be replying'
+                                          text='The channel I will be replying '
                                                'music commands is now'
                                                f'{channel.mention}.')
         except KeyError:

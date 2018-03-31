@@ -37,11 +37,12 @@ class ServerManager():
         self.playlist.append(video_id)
         text = f'Added: [{video_title}]'\
                f'(http://www.youtube.com/{video_id}).\n'\
-               'Playlist size is'\
+               'Playlist size is '\
                f'now {len(self.playlist)}.'
 
         if message:
             await send_executed_embed(self.client, message,
+                                      command='play',
                                       text=text)
 
         await self.play()
@@ -97,7 +98,7 @@ class ServerManager():
         if message:
             await send_executed_embed(self.client, message,
                                       command='shuffle',
-                                      text='I just shuffled'
+                                      text='I just shuffled '
                                            'the server playlist.')
 
     async def clear(self, message):

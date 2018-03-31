@@ -14,8 +14,8 @@ async def send_playing_embed(client, textch, uploader, name, url):
 async def send_empty_playlist_embed(client, textch):
     embed_msg.title = 'The playlist is now empty.'
     embed_msg.url = Embed.Empty
-    embed_msg.description = 'I won\'t leave the channel,'\
-                            'feel free to play anything'\
+    embed_msg.description = 'I won\'t leave the channel, '\
+                            'feel free to play anything '\
                             'else when you feel like.'
     embed_msg.set_footer(text=Embed.Empty)
     await client.send_message(textch, embed=embed_msg)
@@ -27,8 +27,8 @@ async def send_playlist_extend_embed(client, textch, newsize):
     embed_msg.set_footer(text=Embed.Empty)
     await client.send_message(textch, embed=embed_msg)
 
-async def send_executed_embed(client, message, text=None):
-    embed_msg.title = Embed.Empty
+async def send_executed_embed(client, message, command=None, text=None):
+    embed_msg.title = f'Found !{command}.'
     embed_msg.url = Embed.Empty
     embed_msg.description = text
     embed_msg.set_footer(text=message.author.name,
