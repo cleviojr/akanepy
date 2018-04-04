@@ -11,7 +11,7 @@ class Akane():
         self.client = Client()
         MainListener(self.client, Manager())
 
-        opus.load_opus('libopus-0.x86.dll')
+        opus.load_opus('libopus-0.x64.dll')
         # libs: 'libopus-0.x86.dll', 'libopus-0.x64.dll',
         # 'libopus-0.dll', 'libopus.so.0', 'libopus.0.dylib'.
 
