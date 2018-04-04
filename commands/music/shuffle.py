@@ -1,6 +1,6 @@
 class ShuffleCmd():
     def __init__(self, client, manager):
-        self.client  = client
+        self.client = client
         self.manager = manager
 
     async def run(self, message, args):
