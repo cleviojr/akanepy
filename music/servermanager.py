@@ -35,6 +35,7 @@ class ServerManager():
 
     async def add_to_playlist(self, video_id, video_title, message=None):
         self.playlist.append(video_id)
+
         text = f'Added: [{video_title}]'\
                f'(http://www.youtube.com/{video_id}).\n'\
                'Playlist size is '\

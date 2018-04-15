@@ -2,26 +2,29 @@ import discord
 from commands.utils.core import Runner
 import asyncio
 
-class MainListener():   
+
+class MainListener():
     def __init__(self, client, manager):
-        self.client            = client
-        self.manager           = manager
+        self.client = client
+        self.manager = manager
         self.connected_servers = 0
-        self.game              = ''
+        self.game = ''
 
         @self.client.event
         async def on_ready():
-            for j in self.client.servers: 
+            for j in self.client.servers:
                 self.connected_servers += 1
-            
+
             await self.update_game()
             print(self.game)
 
         @self.client.event
         async def on_message(message):
             # the bot is not parsing non command-like messages
-            content     = message.clean_content
-            not_command = not content or content[0] is not '!' or message.author.bot
+            content = message.clean_content
+            not_command = not content\
+                or content[0] is not '!'\
+                or message.author.bot
             if not_command:
                 return
 
@@ -41,4 +44,4 @@ class MainListener():
 
     async def update_game(self):
         self.game = f'Online for {self.connected_servers} servers.'
-        await self.client.change_presence(game=discord.Game(name=self.game)) 
+        await self.client.change_presence(game=discord.Game(name=self.game))
