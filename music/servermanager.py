@@ -65,7 +65,10 @@ class ServerManager():
     async def play(self):
             if not self.is_playing():
                 self.player = await self.voice_client.create_ytdl_player(
-                            self.playlist.popleft(), after=self.on_song_end)
+                                self.playlist.popleft(),
+                                ytdl_options={'quiet': True},
+                                after=self.on_song_end,
+                            )
                 self.player.start()
 
                 if self.textch:
