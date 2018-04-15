@@ -49,7 +49,7 @@ class PlayCmd():
                         for j in split:
                             if j.startswith('t='):
                                 split.remove(j)
-                            if j.startswith('index='):                               
+                            if j.startswith('index='):
                                 index = int(j.split('=')[1])
                                 split.remove(j)
 
