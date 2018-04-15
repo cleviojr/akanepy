@@ -11,18 +11,14 @@ class Akane():
         self.client = Client()
         MainListener(self.client, Manager())
 
-        opus.load_opus('libopus-0.x64.dll')
-        # libs: 'libopus-0.x86.dll', 'libopus-0.x64.dll',
-        # 'libopus-0.dll', 'libopus.so.0', 'libopus.0.dylib'.
-
-        loop = asyncio.get_event_loop()
+        self.loop = asyncio.get_event_loop()
         try:
-            loop.run_until_complete(self.run())
+            self.loop.run_until_complete(self.run())
         except KeyboardInterrupt:
-            loop.run_until_complete(self.client.logout())
+            self.loop.run_until_complete(self.client.logout())
             print('Offline.')
         finally:
-            loop.close()
+            self.loop.close()
             quit()
 
     async def run(self):
