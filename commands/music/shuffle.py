@@ -7,6 +7,6 @@ class ShuffleCmd():
         server_id = message.server.id
 
         try:
-            await self.manager.server_managers[f'{server_id}'].shuffle(message)
+            await self.manager.managers[f'{server_id}'].shuffle(message)
         except KeyError:
             pass
