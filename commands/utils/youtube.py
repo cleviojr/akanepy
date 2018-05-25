@@ -1,7 +1,9 @@
 from googleapiclient.discovery import build
 from config import CONFIG
 
-service = build('youtube', 'v3', developerKey=CONFIG['youtube_key'])
+service = build('youtube',
+                'v3',
+                developerKey=CONFIG['bots'][0]['youtube_key'])
 
 
 class Youtube():
