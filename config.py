@@ -1,3 +1,5 @@
 import yaml
 
-CONFIG = yaml.load(open('variables.yaml', 'r'))
+file = open('variables.yaml', 'r')
+CONFIG = yaml.load(file)
+file.close()
