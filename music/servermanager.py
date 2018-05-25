@@ -1,4 +1,3 @@
-from config import CONFIG
 from random import shuffle
 from commands.utils.youtube import Youtube
 from collections import deque
@@ -12,11 +11,10 @@ import asyncio
 
 class ServerManager():
     def __init__(self, client, textch):
-        # in args
+        # from args
         self.client = client
         self.textch = textch
 
-        # not in args
         self.server = self.textch.server
         self.id = self.server.id
         self.voice_client = self.client.voice_client_in(self.server)
@@ -38,8 +36,8 @@ class ServerManager():
 
         text = f'Added: [{video_title}]'\
                f'(http://www.youtube.com/{video_id}).\n'\
-               'Playlist size is '\
-               f'now {len(self.playlist)}.'
+               'Queue size: '\
+               f'{len(self.playlist)}.'
 
         if message:
             await send_executed_embed(self.client, message,
