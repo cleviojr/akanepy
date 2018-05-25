@@ -1,6 +1,7 @@
 import discord
 from commands.utils.core import Runner
 import asyncio
+import youtube_dl
 
 
 class MainListener():
@@ -12,11 +13,8 @@ class MainListener():
 
         @self.client.event
         async def on_ready():
-            for j in self.client.servers:
-                self.connected_servers += 1
-
+            self.connected_servers = len([j for j in self.client.servers])
             await self.update_game()
-            print(self.game)
 
         @self.client.event
         async def on_message(message):
@@ -45,3 +43,4 @@ class MainListener():
     async def update_game(self):
         self.game = f'Online for {self.connected_servers} servers.'
         await self.client.change_presence(game=discord.Game(name=self.game))
+        print(self.game)
